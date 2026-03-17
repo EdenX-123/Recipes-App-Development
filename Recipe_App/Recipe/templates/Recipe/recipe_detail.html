@@ -1,0 +1,43 @@
+{% extends "Recipe/base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="detail-container">
+
+        <h1>{{ recipe.title }}</h1>
+
+        <p class="recipe-meta">
+            By {{ recipe.author }} | {{ recipe.created_at|date:"M d, Y" }}
+        </p>
+
+        <img src="{{ recipe.image.url }}" class="detail-image">
+
+        <div class="detail-section">
+            <h2>Description</h2>
+            <p>{{ recipe.description }}</p>
+        </div>
+
+        <div class="detail-section">
+            <h2>Ingredients</h2>
+            <p>{{ recipe.ingredients }}</p>
+        </div>
+
+        <div class="detail-section">
+            <h2>Instructions</h2>
+            <p>{{ recipe.instructions }}</p>
+        </div>
+
+        {% if user == recipe.author %}
+        <div class="recipe-actions">
+            <a href="{% url 'edit_recipe' recipe.id %}" class="btn">Edit</a>
+            <a href="{% url 'delete_recipe' recipe.id %}" class="btn">Delete</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

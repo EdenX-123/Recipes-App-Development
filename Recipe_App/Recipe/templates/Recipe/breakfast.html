@@ -1,0 +1,23 @@
+{% extends "Recipe/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Breakfast Recipes</h1>
+    
+    <a href="{% url 'add_recipe' %}" class="btn add-btn">Add Recipe</a>
+    <br><br><br>
+    <div class="recipe-grid">
+        {% for recipe in recipes %}
+        <div class="recipe-card">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <div class="recipe-content">
+                <h3>{{ recipe.title }}</h3>
+                <p class="recipe-author">By {{ recipe.author }} • {{ recipe.created_at|date:"M d" }}</p>
+                <p class="recipe-desc">{{ recipe.description|truncatewords:20 }}</p>
+                <a href="{% url 'recipe_detail' recipe.id %}" class="btn">View</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

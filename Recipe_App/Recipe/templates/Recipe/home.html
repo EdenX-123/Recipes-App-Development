@@ -1,0 +1,54 @@
+{% extends 'Recipe/base.html' %}
+{% block content %}
+
+<div class="hero">
+    <div class="hero-icon">🍽️</div>
+    <h1>Welcome to Recipe App</h1>
+    <p>Discover, cook and share your favourite recipes.</p>
+</div>
+
+<div class="video-section">
+    <iframe 
+        width="720" 
+        height="415"
+        src="https://www.youtube.com/embed/Kde-FFclEjg"
+        title="Cooking Video"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+    </iframe>
+</div>
+
+<div class="features">
+    <h2>App Features</h2>
+    <div class="feature-box">
+        <div class="feature">
+            <h3>📖 Easy Recipes</h3>
+            <p>Browse hundreds of easy recipes.</p>
+        </div>
+        <div class="feature">
+            <h3>🍔 Food Categories</h3>
+            <p>Find recipes by category.</p>
+        </div>
+        <div class="feature">
+            <h3>📤 Upload Recipes</h3>
+            <p>Share your own cooking ideas.</p>
+        </div>
+    </div>
+</div>
+
+<div class="reviews">
+    <h2>User Reviews</h2>
+    <div class="review">
+        <p>⭐⭐⭐⭐⭐ <br>"This website helped me cook amazing meals!"</p>
+    </div>
+    <div class="review">
+        <p>⭐⭐⭐⭐⭐ <br>"Very easy to use."</p>
+    </div>
+    <div class="review">
+        <p>⭐⭐⭐⭐⭐ <br>"Best recipe website!"</p>
+    </div>
+</div>
+
+{% endblock %}

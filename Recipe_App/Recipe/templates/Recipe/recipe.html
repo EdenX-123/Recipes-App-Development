@@ -1,0 +1,61 @@
+{% extends "Recipe/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="recipe-container">
+    <h1 class="recipe-title">RECIPE OF THE DAY</h1>
+    
+    <div class="recipe-section">
+        
+    </div>
+
+
+    <div class="category-container">
+
+        <a href="{% url 'breakfast' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>Breakfast</h2>
+                <p>Start your day with delicious breakfast recipes.</p>
+            </div>
+     
+            
+            <div class="card-image">
+                <img src="{% static 'Recipe/images/breakfast.jpg' %}" alt="Breakfast">
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'lunch' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>Lunch</h2>
+                <p>Easy and tasty lunch ideas for every day.</p>
+            </div>
+
+            <div class="card-image">
+                <img src="{% static 'Recipe/images/lunch.jpg' %}" alt="Lunch">
+            </div>
+
+        </a>
+
+
+        <a href="{% url 'dinner' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>Dinner</h2>
+                <p>Delicious dinner recipes for family meals.</p>
+            </div>
+
+            <div class="card-image">
+                <img src="{% static 'Recipe/images/dinner.jpg' %}" alt="Dinner">
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}
