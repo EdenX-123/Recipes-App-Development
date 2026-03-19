@@ -682,3 +682,13 @@
             gap: 10px;
         }
     }
+
+    /* ol */
+    ol{
+    padding-left:20px;
+    }
+
+    ol li{
+        margin-bottom:10px;
+        line-height:1.6;
+    }

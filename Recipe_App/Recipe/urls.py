@@ -10,6 +10,12 @@ urlpatterns = [
     path('health-diet/', views.health_and_diet, name='health_and_diet'),
     path('holidays/', views.holiday_recipes, name='holiday_recipes'),
 
+    path("Dessert/", views.Dessert, name = "Dessert"),
+    path("Drinks/", views.Drinks, name="Drinks"),
+    path("Keto/", views.Keto, name="Keto"),
+    path("Vegetarian/", views.Vegetarian, name="Vegetarian"),
+    path("MotherDay/", views.MotherDay, name="MotherDay"),
+    path("NewYear/",views.NewYear,name="NewYear"),
     # recipe urls
     path('breakfast/',views.breakfast,name='breakfast'),
     path('lunch/',views.lunch,name='lunch'),

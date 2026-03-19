@@ -22,24 +22,24 @@
                     <a href="{% url 'breakfast' %}">🥓Breakfast</a>
                     <a href="{% url 'lunch' %}">🥪Lunch</a>
                     <a href="{% url 'dinner' %}">🍖Dinner</a>
-                    <a href="#">🍨Dessert</a>
-                    <a href="#">🥤Drinks</a>
+                    <a href="{% url 'Dessert' %}">🍨Dessert</a>
+                    <a href="{% url 'Drinks' %}">🥤Drinks</a>
                 </div>
             </div>
 
             <div class="dropdown">
                 <a href="{% url 'health_and_diet' %}">🥗Health & Diet ▼</a>
                 <div class="dropdown-content">
-                    <a href="#">Keto</a>
-                    <a href="#">Vegetarian</a>
+                    <a href="{% url 'Keto' %}">Keto</a>
+                    <a href="{% url 'Vegetarian' %}">Vegetarian</a>
                 </div>
             </div>
 
             <div class="dropdown">
                 <a href="{% url 'holiday_recipes' %}">🎄Holidays ▼</a>
                 <div class="dropdown-content">
-                    <a href="#">Mother's Day</a>
-                    <a href="#">New Year</a>
+                    <a href="{% url 'MotherDay' %}">Mother's Day</a>
+                    <a href="{% url 'NewYear' %}">New Year</a>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                 <input type="text" name="username" placeholder="Minimum 4 characters" required>
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Minimum 6 characters" required>
-                <button type="submit" class="login-btn">LOG IN</button>
+                <button type="submit" class="login-btn" onclick="this.disabled=true; this.form.submit();">LOG IN</button>
             </form>
             <button class="login-btn" onclick="showSignup()">Don't have an account? Sign Up</button>
         </div>
@@ -94,7 +94,7 @@
                 <input type="password" name="password" placeholder="Minimum 6 characters" required>
                 <label>Confirm Password</label>
                 <input type="password" name="password1" placeholder="Minimum 6 characters" required>
-                <button type="submit" class="login-btn">SIGN UP</button>
+                <button type="submit" id="signupBtn" onclick="this.disabled=true; this.form.submit();" class="login-btn">Sign Up</button>
             </form>
             <button class="login-btn" onclick="showLogin()">Already have an account? Log In</button>
         </div>
@@ -185,6 +185,10 @@ if (urlParams.get("signup") === "true") {
 setTimeout(() => {
     document.querySelectorAll(".alert").forEach(alert => alert.style.display = "none");
 }, 4000);
+
+document.querySelector("form").addEventListener("submit", function(){
+    document.getElementById("signupBtn").disabled = true;
+});
 </script>
 </body>
 </html>

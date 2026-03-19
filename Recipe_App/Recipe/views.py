@@ -16,6 +16,30 @@ def holiday_recipes(request):
 
     return render(request, "Recipe/Holidays.html")
 
+def Dessert(request):
+
+    return render(request, "Recipe/Dessert.html")
+
+def Drinks(request):
+
+    return render(request, "Recipe/Drinks.html")
+
+def Keto(request):
+
+    return render(request, "Recipe/Keto.html")
+
+def Vegetarian(request):
+
+    return render(request, "Recipe/Vegetarian.html")
+
+def MotherDay(request):
+
+    return render(request, "Recipe/MotherDay.html")
+
+def NewYear(request):
+    
+    return render(request, "Recipe/NewYear.html")
+
 # recipe view
 def breakfast(request):
     recipes = Recipe.objects.filter(category='breakfast')
@@ -111,6 +135,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 # signup view
 def signup(request):
@@ -134,14 +159,13 @@ def signup(request):
             messages.error(request,"Passwords do not match ❌")
             return redirect("/?signup=true")
 
-        if User.objects.filter(username=username).exists():
+        try:
+            user = User.objects.create_user(username=username, password=password)
+        except IntegrityError:
             messages.error(request,"Username already exists ⚠️")
             return redirect("/?signup=true")
-
-        user = User.objects.create_user(username=username,password=password)
-
+        
         login(request,user)
-
         messages.success(request,"Account created successfully 🎉")
 
         return redirect("/")
