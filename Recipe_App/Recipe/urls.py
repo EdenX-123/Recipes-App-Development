@@ -24,4 +24,6 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("login/", views.login_view, name="login"),
     path("logout/", views.user_logout, name="logout"),
+    #search bar
+    path("search/", views.search, name="search"),
 ]

@@ -1,0 +1,37 @@
+{% extends "Recipe/base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Search Results for "{{ query }}"</h2>
+
+    {% if recipes %}
+
+        <div class="recipe-grid">
+            {% for recipe in recipes %}
+                <div class="recipe-card">
+
+                    <img src="{{ recipe.image.url }}">
+
+                    <div class="recipe-content">
+                        <h3>{{ recipe.title }}</h3>
+                        <p>By {{ recipe.author }}</p>
+                        <p>{{ recipe.description|truncatewords:15 }}</p>
+
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn">View</a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <p>No recipes found 😢</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

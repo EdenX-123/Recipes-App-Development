@@ -177,3 +177,22 @@ def user_logout(request):
 
     return redirect("/")
 
+#search bar 
+from django.db.models import Q
+
+def search(request):
+    query = request.GET.get("q")
+
+    if query:
+        recipes = Recipe.objects.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(ingredients__icontains=query)
+        )
+    else:
+        recipes = Recipe.objects.none()
+
+    return render(request, "Recipe/search.html", {
+        "recipes": recipes,
+        "query": query
+    })
