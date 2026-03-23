@@ -16,6 +16,30 @@ def holiday_recipes(request):
 
     return render(request, "Recipe/Holidays.html")
 
+def Dessert(request):
+
+    return render(request, "Recipe/Dessert.html")
+
+def Drinks(request):
+
+    return render(request, "Recipe/Drinks.html")
+
+def Keto(request):
+
+    return render(request, "Recipe/Keto.html")
+
+def Vegetarian(request):
+
+    return render(request, "Recipe/Vegetarian.html")
+
+def MotherDay(request):
+
+    return render(request, "Recipe/MotherDay.html")
+
+def NewYear(request):
+    
+    return render(request, "Recipe/NewYear.html")
+
 # recipe view
 def breakfast(request):
     recipes = Recipe.objects.filter(category='breakfast')
@@ -51,31 +75,49 @@ from django.contrib.auth.decorators import login_required
 def add_recipe(request):
 
     if not request.user.is_authenticated:
+        messages.error(request, "Please login first ⚠️")
         return redirect("/?login=true")
 
     if request.method == "POST":
-        form = RecipeForm(request.POST,request.FILES)
+        form = RecipeForm(request.POST, request.FILES)
 
-        if form.is_valid():
+        if request.method == "POST":
+            form = RecipeForm(request.POST, request.FILES)
+
+            if form.is_valid():
+
+                if Recipe.objects.filter(
+                    title=form.cleaned_data['title'],
+                    author=request.user
+                ).exists():
+                    messages.warning(request, "Recipe already exists ⚠️")
+                    return redirect("home")
+
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
 
-            return redirect('recipe_detail',recipe_id=recipe.id)
+            messages.success(request, "Recipe added successfully 🎉")
+            return redirect('recipe_detail', recipe_id=recipe.id)
+        
+        else:
+            messages.error(request, "Failed to add recipe ❌")
 
     else:
         form = RecipeForm()
 
-    return render(request,'Recipe/add_recipe.html',{
-        'form':form
+    return render(request, 'Recipe/add_recipe.html', {
+        'form': form
     })
 
-# edit recipe view
-def edit_recipe(request,recipe_id):
 
-    recipe = get_object_or_404(Recipe,id=recipe_id)
+# edit recipe view
+def edit_recipe(request, recipe_id):
+
+    recipe = get_object_or_404(Recipe, id=recipe_id)
 
     if recipe.author != request.user:
+        messages.error(request, "You are not allowed to edit this recipe ❌")
         return redirect("home")
     
     form = RecipeForm(request.POST or None,
@@ -84,23 +126,26 @@ def edit_recipe(request,recipe_id):
 
     if form.is_valid():
         form.save()
-        return redirect('recipe_detail',recipe_id=recipe.id)
+        messages.success(request, "Recipe updated successfully ✅")
+        return redirect('recipe_detail', recipe_id=recipe.id)
 
-    return render(request,'Recipe/edit_recipe.html',{
-        'form':form
+    return render(request, 'Recipe/edit_recipe.html', {
+        'form': form
     })
 
 # delete recipe view
-def delete_recipe(request,recipe_id):
+def delete_recipe(request, recipe_id):
 
-    recipe = get_object_or_404(Recipe,id=recipe_id)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
 
-    if recipe.author == request.user:
-        return redirect("recipe")
-    
+    if recipe.author != request.user:
+        messages.error(request, "You are not allowed to delete this recipe ❌")
+        return redirect("home")
+
     recipe.delete()
+    messages.success(request, "Recipe deleted successfully 🗑️")
 
-    return redirect('recipe')
+    return redirect('home')
 
 
 # user logining 
@@ -111,6 +156,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 # signup view
 def signup(request):
@@ -134,14 +180,13 @@ def signup(request):
             messages.error(request,"Passwords do not match ❌")
             return redirect("/?signup=true")
 
-        if User.objects.filter(username=username).exists():
+        try:
+            user = User.objects.create_user(username=username, password=password)
+        except IntegrityError:
             messages.error(request,"Username already exists ⚠️")
             return redirect("/?signup=true")
-
-        user = User.objects.create_user(username=username,password=password)
-
+        
         login(request,user)
-
         messages.success(request,"Account created successfully 🎉")
 
         return redirect("/")
@@ -177,3 +222,22 @@ def user_logout(request):
 
     return redirect("/")
 
+#search bar 
+from django.db.models import Q
+
+def search(request):
+    query = request.GET.get("q")
+
+    if query:
+        recipes = Recipe.objects.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(ingredients__icontains=query)
+        )
+    else:
+        recipes = Recipe.objects.none()
+
+    return render(request, "Recipe/search.html", {
+        "recipes": recipes,
+        "query": query
+    })

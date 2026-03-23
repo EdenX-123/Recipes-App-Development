@@ -6,13 +6,12 @@
 
 <h1>Add Recipe</h1>
 
-<form method="POST" enctype="multipart/form-data">
-
+<form method="POST" enctype="multipart/form-data" onsubmit="disableBtn()">
 {% csrf_token %}
 
 {{ form.as_p }}
 
-<button type="submit">Add Recipe</button>
+<button type="submit" id="submitBtn">Add Recipe</button>
 
 </form>
 

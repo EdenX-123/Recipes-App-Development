@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🍳Recipe App</title>
+    <title>Recipe App</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -9,235 +9,198 @@
 <body>
 <!-- Navbar -->
 <div class="navbar">
-    <a href="/" class="logo">🍳Recipe<span class="dot">.</span></a>
-
+    <!-- left -->
+    <div class="nav-side left">
+    </div>
+    <!-- center -->
+    <div class="nav-center">
+        <a href="/" class="logo">Recipe<span class="dot">.</span></a>
         <div class="nav-links">
-
             <div class="dropdown">
                 <a href="{% url 'recipe'%}" class="dropbtn">🍴Daily Recipe ▼</a>
                 <div class="dropdown-content">
                     <a href="{% url 'breakfast' %}">🥓Breakfast</a>
                     <a href="{% url 'lunch' %}">🥪Lunch</a>
                     <a href="{% url 'dinner' %}">🍖Dinner</a>
-                    <a href="#">🍨Dessert</a>
-                    <a href="#">🥤Drinks</a>
+                    <a href="{% url 'Dessert' %}">🍨Dessert</a>
+                    <a href="{% url 'Drinks' %}">🥤Drinks</a>
                 </div>
             </div>
 
             <div class="dropdown">
-            <a href="{% url 'health_and_diet' %}">🥗Health & Diet ▼</a>
+                <a href="{% url 'health_and_diet' %}">🥗Health & Diet ▼</a>
                 <div class="dropdown-content">
-                    <a href="#">Keto</a>
-                    <a href="#">Vegetarian</a>
+                    <a href="{% url 'Keto' %}">Keto</a>
+                    <a href="{% url 'Vegetarian' %}">Vegetarian</a>
                 </div>
             </div>
 
             <div class="dropdown">
-            <a href="{% url 'holiday_recipes' %}">🎄Holidays ▼</a>
+                <a href="{% url 'holiday_recipes' %}">🎄Holidays ▼</a>
                 <div class="dropdown-content">
-                    <a href="#">Monther's Day</a>
-                    <a href="#">New Year</a>
+                    <a href="{% url 'MotherDay' %}">Mother's Day</a>
+                    <a href="{% url 'NewYear' %}">New Year</a>
                 </div>
             </div>
-                  <!-- USER AREA -->
-                <div class="">
-
-                    {% if user.is_authenticated %}
-
-                    <a >Hi {{ user.username }}</a>
-                    <a> / </a>
-                    <a href="{% url 'logout' %}">Logout</a>
-
-                    {% else %}
-
-                    <a href="#" onclick="openLogin()">
-                        <i class="fas fa-user"></i>
-                    </a>
-
-                    {% endif %}
-                </div>
-
-                <!-- Modal always exists -->
-                <div id="loginOverlay" class="overlay">
-
-                <div class="login-modal">
-
-                    <span class="close" onclick="closeLogin()">&times;</span>
-
-                    <!-- LOGIN FORM -->
-
-                    <div id="loginForm">
-                        <h2>LOG IN</h2>
-
-                        <form method="POST" action="{% url 'login' %}">
-                            {% csrf_token %}
-
-                            <label>Username</label>
-                            <input type="text" name="username" placeholder="Minimum 4 characters" required>
-
-                            <label>Password</label>
-                            <input type="password" name="password" placeholder="Minimum 6 characters" required>
-
-                            <button type="submit" class="login-btn">LOG IN</button>
-                        </form>
-                           
-                        <button class="login-btn"><a href="#" onclick="showSignup()">Don't have an account? Sign Up</a></button>
-                    </div>
-
-
-                    <!-- SIGNUP FORM -->
-
-                    <div id="signupForm" style="display:none;">
-
-                        <span class="close" onclick="closeSignup()">&times;</span>
-
-                        <h2>SIGN UP</h2>
-
-                        <form method="POST" action="{% url 'signup' %}">
-                            {% csrf_token %}
-
-                            <label>Username</label>
-                            <input type="text" name="username" placeholder="Minimum 4 characters" required>
-
-                            <label>Password</label>
-                            <input type="password" name="password" placeholder="Minimum 6 characters" required>
-
-                            <label>Confirm Password</label>
-                            <input type="password" name="password1" placeholder="Minimum 6 characters" required>
-
-                            <button type="submit" class="login-btn">SIGN UP</button>
-                            </form>
-
-                            <button class="login-btn"><a href="#" onclick="showLogin()">Already have an account? Log In</a></button>
-
-
-                    </div>
-
-                </div>
-            </div>
-        <script>
-
-            function openLogin(){
-                document.getElementById("loginOverlay").style.display="flex"
-            }
-
-            function closeLogin(){
-                document.getElementById("loginOverlay").style.display="none"
-            }
-
-            function showSignup(){
-                document.getElementById("loginForm").style.display="none"
-                document.getElementById("signupForm").style.display="block"
-            }
-
-            function showLogin(){
-                document.getElementById("signupForm").style.display="none"
-                document.getElementById("loginForm").style.display="block"
-            }
-
-            document.addEventListener("keydown",function(e){
-                if(e.key==="Escape"){
-                    closeLogin()
-                }
-            })
-
-            // // Close modal when clicking outside of it
-            // document.getElementById("loginOverlay").onclick=function(e){
-            //     if(e.target===this){
-            //         closeLogin()
-            //     }
-            // }
-
-            // Login page open auto
-
-            const urlParams = new URLSearchParams(window.location.search);
-
-            if (urlParams.get("login") === "true") {
-                openLogin();
-            }
-
-            if (urlParams.get("signup") === "true") {
-                openLogin(); // open overlay
-                showSignup(); // then swich Sign Up tab
-
-                setTimeout(() => {
-                    document.querySelector("#signupForm input[name='username']").focus();
-                }, 200);
-            }
-
-            setTimeout(function(){
-                let alerts=document.querySelectorAll(".alert")
-                alerts.forEach(function(alert){
-                    alert.style.display="none"
-                })
-            },4000)
-            
-        </script>
-            
-
-
-      </div>
-</div>
-
-        {% if messages %}
-        <div class="messages">
-
-            {% for message in messages %}
-
-                <a class="alert {{ message.tags }}">
-                    {{ message }}
-                </a>
-
-            {% endfor %}
-
         </div>
-        {% endif %}
-  
 
-
-    <!-- Content Block -->
-    <div class="content">
-        {% block content %}{% load static %}{% endblock %} 
+        <div class="user-area nav-links">
+            {% if user.is_authenticated %}
+                <a>Hi {{ user.username }}</a>
+                <a> / </a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="#" onclick="openLogin()"><i class="fas fa-user"></i></a>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h2>🍴 Recipe App</h2>
-                <p>Discover delicious recipes for every meal.</p>
-            </div>
+    <!-- right -->
+    <div class="nav-side right">
 
-            <div class="footer-links">
-                <h3>Categories</h3>
-                <a href="#">Breakfast</a>
-                <a href="#">Lunch</a>
-                <a href="#">Dinner</a>
-            </div>
+        <form action="{% url 'search' %}" method="GET" class="search-bar">
+            <input type="text" name="q" placeholder="Search recipes...">
+            <button type="submit">🔍</button>
+        </form>
+    </div>
 
-            <div class="footer-links">
-                <h3>Information</h3>
-                <a href="#">About Us</a>
-                <a href="#">Help</a>
-                <a href="#">Site Map</a>
-            </div>
+</div>
 
-            <div class="footer-social">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#">🌐</a>
-                    <a href="#">📘</a>
-                    <a href="#">📸</a>
-                    <a href="#">🐦</a>
-                    <a href="#">▶</a>
-                </div>
-            </div>
+<!-- Login Modal -->
+<div id="loginOverlay" class="overlay">
+    <div class="login-modal">
+        <span class="close" onclick="closeLogin()">&times;</span>
+        
+        <div id="loginForm">
+            <h2>LOG IN</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Minimum 4 characters" required>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Minimum 6 characters" required>
+                <button type="submit" class="login-btn" onclick="this.disabled=true; this.form.submit();">LOG IN</button>
+            </form>
+            <button class="login-btn" onclick="showSignup()">Don't have an account? Sign Up</button>
         </div>
 
-        <div class="footer-bottom">
-            <p>© 2026 Recipe App | All Rights Reserved</p>
-            <a href="#" class="back-top">⬆ Back to Top</a>
+        <div id="signupForm" style="display:none;">
+            <h2>SIGN UP</h2>
+            <form method="POST" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Minimum 4 characters" required>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Minimum 6 characters" required>
+                <label>Confirm Password</label>
+                <input type="password" name="password1" placeholder="Minimum 6 characters" required>
+                <button type="submit" id="signupBtn" onclick="this.disabled=true; this.form.submit();" class="login-btn">Sign Up</button>
+            </form>
+            <button class="login-btn" onclick="showLogin()">Already have an account? Log In</button>
         </div>
-    </footer>
+    </div>
+</div>
+
+<!-- Messages -->
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <a class="alert {{ message.tags }}">{{ message }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Content Block -->
+<div class="content">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand">
+            <h2>🍴 Recipe App</h2>
+            <p>Discover delicious recipes for every meal.</p>
+        </div>
+        <div class="footer-links">
+            <h3>Categories</h3>
+            <a href="{% url 'breakfast' %}">Breakfast</a>
+            <a href="{% url 'lunch' %}">Lunch</a>
+            <a href="{% url 'dinner' %}">Dinner</a>
+        </div>
+        <div class="footer-links">
+            <h3>Information</h3>
+            <a href="#">About Us</a>
+            <a href="#">Help</a>
+            <a href="#">Site Map</a>
+        </div>
+        <div class="footer-social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#">🌐</a>
+                <a href="#">📘</a>
+                <a href="#">📸</a>
+                <a href="#">🐦</a>
+                <a href="#">▶</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Recipe App | All Rights Reserved | by Vison Haung | Gmail: sasiyei520@gmail.com | GitHub : EdenX-123</p>
+        <a href="#" class="back-top">⬆ Back to Top</a>
+    </div>
+</footer>
+
+<script>
+function openLogin() {
+    document.getElementById("loginOverlay").style.display = "flex";
+}
+
+function closeLogin() {
+    document.getElementById("loginOverlay").style.display = "none";
+}
+
+function showSignup() {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLogin();
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("login") === "true") openLogin();
+if (urlParams.get("signup") === "true") {
+    openLogin();
+    showSignup();
+    setTimeout(() => document.querySelector("#signupForm input[name='username']").focus(), 200);
+}
+
+setTimeout(() => {
+    document.querySelectorAll(".alert").forEach(alert => alert.style.display = "none");
+}, 4000);
+
+document.querySelector("form").addEventListener("submit", function(){
+    document.getElementById("signupBtn").disabled = true;
+});
+
+function disableBtn() {
+    document.getElementById("submitBtn").disabled = true;
+}
+
+function disableBtn() {
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerText = "Adding...";
+}
+
+
+</script>
 </body>
 </html>
