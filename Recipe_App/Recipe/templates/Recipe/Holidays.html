@@ -1,21 +1,38 @@
 {% extends "Recipe/base.html" %}
+{% load static %}
 
 {% block content %}
 
-<div class="holidays-container">
-    <h1>Holiday Recipes</h1>
-    <p>Discover delicious and nutritious recipes designed to support your health and wellness goals.</p>
-
-        <div class="recipe-card">
-        <h2>💖 Mother's Day</h2>
-        <p>Make your mom feel special with sweet desserts and breakfast ideas.</p>
+<div class="recipe-container">
+    <h1 class="recipe-title">Holiday Recipes</h1>
+    
+    <div class="recipe-section">
+        
     </div>
 
-    <div class="recipe-card">
-        <h2>🎆 New Year</h2>
-        <p>Celebrate with party food, drinks, and delicious snacks.</p>
+
+    <div class="category-container">
+
+        <a href="{% url 'MotherDay' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>💖 Mother's Day</h2>
+                <p>Make your mom feel special with sweet desserts and breakfast ideas.</p>
+            </div>
+     
+        </a>
+
+
+        <a href="{% url 'NewYear' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>🎆 New Year</h2>
+                <p>Celebrate with party food, drinks, and delicious snacks.</p>
+            </div>
+
+        </a>
+
     </div>
 
 </div>
-
 {% endblock %}

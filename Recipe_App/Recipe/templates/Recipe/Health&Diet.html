@@ -1,21 +1,38 @@
 {% extends "Recipe/base.html" %}
+{% load static %}
 
 {% block content %}
 
-<div class="health-diet-container">
-    <h1>Health and Diet Recipes</h1>
-    <p>Discover delicious and nutritious recipes designed to support your health and wellness goals.</p>
-
-        <div class="recipe-card">
-        <h2>🥩 Keto</h2>
-        <p>Low-carb meals like grilled chicken and avocado dishes.</p>
-    </div>
-
-    <div class="recipe-card">
-        <h2>🥕 Vegetarian</h2>
-        <p>Plant-based recipes full of flavor and nutrition.</p>
-    </div>
+<div class="recipe-container">
+    <h1 class="recipe-title">Health and Diet Recipes</h1>
     
-</div>
+    <div class="recipe-section">
+        
+    </div>
 
+
+    <div class="category-container">
+
+        <a href="{% url 'Keto' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>Keto</h2>
+                <p>Low-carb meals like grilled chicken and avocado dishes.</p>
+            </div>
+     
+        </a>
+
+
+        <a href="{% url 'Vegetarian' %}" class="category-card">
+
+            <div class="card-text">
+                <h2>Vegetarian</h2>
+                <p>Plant-based recipes full of flavor and nutrition.</p>
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
 {% endblock %}

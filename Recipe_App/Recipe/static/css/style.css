@@ -692,3 +692,22 @@
         margin-bottom:10px;
         line-height:1.6;
     }
+
+    .other-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    }
+
+.other-card {
+    width: 250px;
+    padding: 15px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.other-card:hover {
+    transform: scale(1.05);
+}
