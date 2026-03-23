@@ -75,31 +75,49 @@ from django.contrib.auth.decorators import login_required
 def add_recipe(request):
 
     if not request.user.is_authenticated:
+        messages.error(request, "Please login first ⚠️")
         return redirect("/?login=true")
 
     if request.method == "POST":
-        form = RecipeForm(request.POST,request.FILES)
+        form = RecipeForm(request.POST, request.FILES)
 
-        if form.is_valid():
+        if request.method == "POST":
+            form = RecipeForm(request.POST, request.FILES)
+
+            if form.is_valid():
+
+                if Recipe.objects.filter(
+                    title=form.cleaned_data['title'],
+                    author=request.user
+                ).exists():
+                    messages.warning(request, "Recipe already exists ⚠️")
+                    return redirect("home")
+
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
 
-            return redirect('recipe_detail',recipe_id=recipe.id)
+            messages.success(request, "Recipe added successfully 🎉")
+            return redirect('recipe_detail', recipe_id=recipe.id)
+        
+        else:
+            messages.error(request, "Failed to add recipe ❌")
 
     else:
         form = RecipeForm()
 
-    return render(request,'Recipe/add_recipe.html',{
-        'form':form
+    return render(request, 'Recipe/add_recipe.html', {
+        'form': form
     })
 
-# edit recipe view
-def edit_recipe(request,recipe_id):
 
-    recipe = get_object_or_404(Recipe,id=recipe_id)
+# edit recipe view
+def edit_recipe(request, recipe_id):
+
+    recipe = get_object_or_404(Recipe, id=recipe_id)
 
     if recipe.author != request.user:
+        messages.error(request, "You are not allowed to edit this recipe ❌")
         return redirect("home")
     
     form = RecipeForm(request.POST or None,
@@ -108,23 +126,26 @@ def edit_recipe(request,recipe_id):
 
     if form.is_valid():
         form.save()
-        return redirect('recipe_detail',recipe_id=recipe.id)
+        messages.success(request, "Recipe updated successfully ✅")
+        return redirect('recipe_detail', recipe_id=recipe.id)
 
-    return render(request,'Recipe/edit_recipe.html',{
-        'form':form
+    return render(request, 'Recipe/edit_recipe.html', {
+        'form': form
     })
 
 # delete recipe view
-def delete_recipe(request,recipe_id):
+def delete_recipe(request, recipe_id):
 
-    recipe = get_object_or_404(Recipe,id=recipe_id)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
 
-    if recipe.author == request.user:
-        return redirect("recipe")
-    
+    if recipe.author != request.user:
+        messages.error(request, "You are not allowed to delete this recipe ❌")
+        return redirect("home")
+
     recipe.delete()
+    messages.success(request, "Recipe deleted successfully 🗑️")
 
-    return redirect('recipe')
+    return redirect('home')
 
 
 # user logining 

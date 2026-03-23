@@ -36,7 +36,14 @@
         {% if user == recipe.author %}
         <div class="recipe-actions">
             <a href="{% url 'edit_recipe' recipe.id %}" class="btn">Edit</a>
-            <a href="{% url 'delete_recipe' recipe.id %}" class="btn">Delete</a>
+            <br><br>
+            <form method="POST" action="{% url 'delete_recipe' recipe.id %}">
+        {% csrf_token %}
+            <button onclick="return confirm('Are you sure?')">
+                Delete
+            </button>
+            </form>
+            
         </div>
         {% endif %}
 

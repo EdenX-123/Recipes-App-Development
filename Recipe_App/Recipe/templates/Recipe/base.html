@@ -189,6 +189,18 @@ setTimeout(() => {
 document.querySelector("form").addEventListener("submit", function(){
     document.getElementById("signupBtn").disabled = true;
 });
+
+function disableBtn() {
+    document.getElementById("submitBtn").disabled = true;
+}
+
+function disableBtn() {
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerText = "Adding...";
+}
+
+
 </script>
 </body>
 </html>
