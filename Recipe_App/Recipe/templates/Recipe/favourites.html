@@ -1,0 +1,27 @@
+{% extends "Recipe/base.html" %}
+
+{% block content %}
+
+<div class="recipe-container">
+
+    <h1>My Favourites</h1>
+
+    <div class="card-container">
+        <div class="recipe-grid">
+        {% for fav in favs %}
+            <div class="recipe-card">
+                <img src="{{ fav.recipe.image.url }}">
+                <div class="recipe-content">
+
+                    <h3>{{ fav.recipe.title }}</h3>
+                    <a href="{% url 'recipe_detail' fav.recipe.id %}" class="btn">View</a>
+                </div>
+
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

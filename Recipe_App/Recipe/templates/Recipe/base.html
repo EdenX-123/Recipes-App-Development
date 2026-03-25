@@ -53,6 +53,9 @@
                 <a href="#" onclick="openLogin()"><i class="fas fa-user"></i></a>
             {% endif %}
         </div>
+
+        <a href="{% url 'my_favourite' %}">❤️</a>
+
     </div>
 
     <!-- right -->
@@ -62,6 +65,7 @@
             <input type="text" name="q" placeholder="Search recipes...">
             <button type="submit">🔍</button>
         </form>
+
     </div>
 
 </div>
@@ -200,6 +204,15 @@ function disableBtn() {
     btn.innerText = "Adding...";
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("fav-form");
+    const btn = document.getElementById("fav-btn");
+
+    form.addEventListener("submit", function () {
+        btn.disabled = true;
+        btn.innerText = "⏳ Loading...";
+    });
+});
 
 </script>
 </body>

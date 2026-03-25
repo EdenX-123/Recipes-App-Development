@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Recipe, Review
+from .models import Recipe, Review, Favourite
 
 def home_view(request):
     return render(request, 'Recipe/home.html')
@@ -48,8 +48,8 @@ def breakfast(request):
         recipe.avg_rating = Review.objects.filter(recipe=recipe).aggregate(
             Avg('rating')
         )['rating__avg']
-        
-            
+
+
     return render(request, "Recipe/breakfast.html",{
         'recipes': recipes
     })
@@ -79,11 +79,16 @@ def recipe_detail(request, recipe_id):
         Avg('rating')
     )['rating__avg']
 
+    is_favourite = Favourite.objects.filter(
+    user=request.user,
+    recipe=recipe
+    ).exists()
     
     return render(request, "Recipe/recipe_detail.html", {
         'recipe': recipe,
         'reviews': reviews,
-        'avg_rating': avg_rating
+        'avg_rating': avg_rating,
+        'is_favourite': is_favourite,
     })
 
 # add edit and delete views
@@ -289,3 +294,36 @@ def add_review(request, recipe_id):
         form = ReviewForm(instance=review)
 
     return render(request, 'Recipe/add_review.html', {'form': form})
+
+
+# Toggle Favourite
+def toggle_favourite(request, recipe_id):
+    if not request.user.is_authenticated:
+        return redirect("/?login=true")
+    
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+
+    fav, created = Favourite.objects.get_or_create(
+        user=request.user,
+        recipe=recipe
+    )
+
+    if not created:
+        fav.delete()
+        is_favourite = False
+        messages.success(request, "Remove favourite 🗑️")
+
+    else:
+        is_favourite = True
+        messages.success(request, "favourite saved ✅")
+
+
+    return redirect('recipe_detail', recipe_id=recipe.id)
+
+# page
+def my_favourite(request):
+    if not request.user.is_authenticated:
+        return redirect("/?login=true")
+    
+    favs = Favourite.objects.filter(user=request.user)
+    return render(request, 'Recipe/favourites.html', {'favs': favs})

@@ -7,8 +7,20 @@
     <div class="detail-container">
 
         <h1>{{ recipe.title }}</h1>
-
+        
         <h3>⭐ Average Rating: {{ avg_rating|default:"No rating yet" }}</h3>
+
+        <form method="POST" action="{% url 'favourite' recipe.id %}" id="fav-form">
+            {% csrf_token %}
+            
+            <button type="submit" id="fav-btn">
+                {% if is_favourite %}
+                    ❤️ Saved
+                {% else %}
+                    🤍 Favourite
+                {% endif %}
+            </button>
+        </form>
 
         <p class="recipe-meta">
             By {{ recipe.author }} | {{ recipe.created_at|date:"M d, Y" }}

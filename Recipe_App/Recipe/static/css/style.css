@@ -711,3 +711,19 @@
 .other-card:hover {
     transform: scale(1.05);
 }
+
+/* fav buttom */
+#fav-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #ff9800;
+    color: white;
+    transition: 0.3s;
+}
+
+#fav-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+}

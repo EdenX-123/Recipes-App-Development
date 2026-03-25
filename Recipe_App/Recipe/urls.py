@@ -34,4 +34,7 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     #review
     path("addreview/<int:recipe_id>",views.add_review, name = "add_review"),
+    # Favourite
+    path("favourite/<int:recipe_id>" ,views.toggle_favourite, name ="favourite"),
+    path("myfavourite/", views.my_favourite, name = "my_favourite"),
 ]
