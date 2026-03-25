@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Recipe
+from .models import Recipe, Review
 
 def home_view(request):
     return render(request, 'Recipe/home.html')
@@ -43,6 +43,13 @@ def NewYear(request):
 # recipe view
 def breakfast(request):
     recipes = Recipe.objects.filter(category='breakfast')
+
+    for recipe in recipes:
+        recipe.avg_rating = Review.objects.filter(recipe=recipe).aggregate(
+            Avg('rating')
+        )['rating__avg']
+        
+            
     return render(request, "Recipe/breakfast.html",{
         'recipes': recipes
     })
@@ -59,11 +66,24 @@ def dinner(request):
         'recipes': recipes
     })
 
+from django.db.models import Avg
+
 # recipe detail view
 def recipe_detail(request, recipe_id):
+
     recipe = get_object_or_404(Recipe, id=recipe_id)
+
+    reviews = Review.objects.filter(recipe=recipe)
+    
+    avg_rating = Review.objects.filter(recipe=recipe).aggregate(
+        Avg('rating')
+    )['rating__avg']
+
+    
     return render(request, "Recipe/recipe_detail.html", {
-        'recipe': recipe
+        'recipe': recipe,
+        'reviews': reviews,
+        'avg_rating': avg_rating
     })
 
 # add edit and delete views
@@ -241,3 +261,31 @@ def search(request):
         "recipes": recipes,
         "query": query
     })
+
+from .forms import ReviewForm
+
+# review view
+def add_review(request, recipe_id):
+    if not request.user.is_authenticated:
+        return redirect("/?login=true")
+
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+
+    review = Review.objects.filter(user=request.user, recipe=recipe).first()
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST, instance=review)
+
+        if form.is_valid():
+            new_review = form.save(commit=False)
+            new_review.user = request.user
+            new_review.recipe = recipe
+            new_review.save()
+
+            messages.success(request, "Review saved ✅")
+            return redirect('recipe_detail', recipe_id=recipe.id)
+
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(request, 'Recipe/add_review.html', {'form': form})

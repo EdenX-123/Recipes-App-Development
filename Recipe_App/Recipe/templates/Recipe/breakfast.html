@@ -12,6 +12,7 @@
             <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
             <div class="recipe-content">
                 <h3>{{ recipe.title }}</h3>
+                <p>⭐ Average Rating: {{ recipe.avg_rating|default:"No rating yet" }}</p>
                 <p class="recipe-author">By {{ recipe.author }} • {{ recipe.created_at|date:"M d" }}</p>
                 <p class="recipe-desc">{{ recipe.description|truncatewords:20 }}</p>
                 <a href="{% url 'recipe_detail' recipe.id %}" class="btn">View</a>

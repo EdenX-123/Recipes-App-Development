@@ -1,0 +1,32 @@
+{% extends "Recipe/base.html" %}
+
+{% block content %}
+
+<div class="review-container">
+
+    <h2>Add / Edit Review</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Rating -->
+        <label for="rating">Rating</label>
+        <select name="rating" required>
+            <option value="">Select rating</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+        </select>
+
+        <!-- Comment -->
+        <label for="comment">Comment</label>
+        <textarea name="comment" rows="4" placeholder="Write your review..."></textarea>
+
+        <button type="submit">Save Review</button>
+    </form>
+
+</div>
+
+{% endblock %}

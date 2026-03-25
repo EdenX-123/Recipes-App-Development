@@ -32,4 +32,6 @@ urlpatterns = [
     path("logout/", views.user_logout, name="logout"),
     #search bar
     path("search/", views.search, name="search"),
+    #review
+    path("addreview/<int:recipe_id>",views.add_review, name = "add_review"),
 ]

@@ -8,6 +8,8 @@
 
         <h1>{{ recipe.title }}</h1>
 
+        <h3>⭐ Average Rating: {{ avg_rating|default:"No rating yet" }}</h3>
+
         <p class="recipe-meta">
             By {{ recipe.author }} | {{ recipe.created_at|date:"M d, Y" }}
         </p>
@@ -48,6 +50,19 @@
         {% endif %}
 
     </div>
+
+    <h3>Reviews</h3>
+
+        {% for review in reviews %}
+        <div class="review-card">
+            <strong>{{ review.user.username }}</strong>
+            ⭐ {{ review.rating }}/5
+            <p>{{ review.comment }}</p>
+            <small>{{ review.created_at }}</small>
+        </div>
+        {% endfor %}
+
+    <a href="{% url 'add_review' recipe.id %}" class="btn add-btn">Add Review</a>
 
 </div>
 
